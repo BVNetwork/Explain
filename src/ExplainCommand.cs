@@ -20,7 +20,7 @@ namespace BVNetwork.Explain
             _index = index;
         }
 
-        public object Explain(ISearch search, string type, string id)
+        public ExplainResult Explain(ISearch search, string type, string id)
         {
             IJsonRequest request = CommandContext.RequestFactory.CreateRequest(GetUrl(type, id), HttpVerbs.Post, ExplicitRequestTimeout);
             try
@@ -31,7 +31,7 @@ namespace BVNetwork.Explain
                 request.WriteBody(requestBody);
                 using (var stringReader = new StringReader(request.GetResponse()))
                 {
-                    object explain = CommandContext.Serializer.Deserialize<object>(new JsonTextReader(stringReader));
+                    ExplainResult explain = CommandContext.Serializer.Deserialize<ExplainResult>(new JsonTextReader(stringReader));
                     return explain;
                 }
             }
